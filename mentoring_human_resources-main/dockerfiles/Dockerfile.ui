@@ -1,0 +1,9 @@
+FROM python:3.11.9-bookworm
+RUN adduser --disabled-password --no-create-home runtime
+
+COPY requirements/requirements-ui.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY human_resources/ui human_resources/ui
+USER runtime
+ENTRYPOINT ["streamlit", "run", "--server.fileWatcherType", "none", "human_resources/ui/app.py"]

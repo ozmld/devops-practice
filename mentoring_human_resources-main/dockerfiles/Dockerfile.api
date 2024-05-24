@@ -1,0 +1,9 @@
+FROM python:3.11.9-alpine
+RUN adduser --disabled-password --no-create-home runtime
+
+COPY requirements/requirements-api.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY human_resources/api human_resources/api
+USER runtime
+ENTRYPOINT ["uvicorn", "--host", "0.0.0.0", "--port", "8000", "human_resources.api.app:app"]
